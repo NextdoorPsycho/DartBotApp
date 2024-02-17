@@ -1,0 +1,32 @@
+name: shit_ui_app
+description: "A Shit Ui App"
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+environment:
+  sdk: '>=3.2.3 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.6
+  provider: ^6.1.1
+  shared_preferences: ^2.2.2
+  build_runner: ^2.4.8
+  dart_openai: ^5.0.0
+  fast_log: ^1.0.7
+  http: ^1.2.0
+  image: 3.0.1
+  nyxx: ^6.1.0
+  nyxx_commands: ^6.0.2
+  nyxx_extensions: ^4.1.0
+  toxic: ^1.0.5
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.1
+
+
+flutter:
+  uses-material-design: true
