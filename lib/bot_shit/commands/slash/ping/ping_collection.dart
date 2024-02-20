@@ -22,7 +22,7 @@ import 'package:nyxx/nyxx.dart';
 import 'package:nyxx_commands/nyxx_commands.dart';
 import 'package:shit_ui_app/bot_shit/utils/dartcord/converter.dart';
 
-final pingCluster = ChatGroup(
+ChatGroup get pingCluster => ChatGroup(
     "ping", "This is what Bundles commands look like when as a ChatGroup",
     children: [
       ChatCommand(

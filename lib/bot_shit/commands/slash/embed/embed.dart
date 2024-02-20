@@ -21,7 +21,7 @@ import 'package:nyxx/nyxx.dart';
 import 'package:nyxx_commands/nyxx_commands.dart';
 import 'package:shit_ui_app/bot_shit/bot_cfg.dart';
 
-final embed = ChatCommand(
+ChatCommand get embed => ChatCommand(
     'embed_embed', 'Creates an embed with provided title and footer',
 id('embed_embed', (
         ChatContext context,

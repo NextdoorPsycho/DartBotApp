@@ -36,7 +36,7 @@ import 'package:shit_ui_app/bot_shit/utils/prefab/embed.dart';
   * - be able to just type /ticket create anywhere to create a ticket, and add the user to it.
  */
 
-final ticketCluster = ChatGroup("ticket",
+ChatGroup get ticketCluster => ChatGroup("ticket",
     "The root command that drives ticket creation, manipulation, and so on.",
     children: [
       ChatCommand('build-hub',

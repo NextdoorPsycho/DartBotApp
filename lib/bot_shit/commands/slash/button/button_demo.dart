@@ -21,7 +21,7 @@ import 'package:nyxx/nyxx.dart';
 import 'package:nyxx_commands/nyxx_commands.dart';
 import 'package:shit_ui_app/bot_shit/utils/nyxx_betterment/d_button.dart';
 
-final buttonDemo = ChatCommand(
+ChatCommand get buttonDemo => ChatCommand(
   'buttondemo',
   "Showcases a demo for buttons and interactions!",
 id('buttondemo', (

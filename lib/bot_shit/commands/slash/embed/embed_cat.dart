@@ -21,8 +21,7 @@ import 'package:nyxx/nyxx.dart';
 import 'package:nyxx_commands/nyxx_commands.dart';
 import 'package:shit_ui_app/bot_shit/utils/nyxx_betterment/e_embed.dart';
 
-final cat =
-ChatCommand('cat_embed', "Le' Mew meow!",
+ChatCommand get cat => ChatCommand('cat_embed', "Le' Mew meow!",
 id('cat_embed', (
 ChatContext context) async {
   verbose("Command invoked: cat_embed");

@@ -27,8 +27,7 @@ import 'package:shit_ui_app/bot_shit/utils/dartcord/image_manipulation.dart';
 import 'package:shit_ui_app/bot_shit/utils/nyxx_betterment/e_embed.dart';
 import 'package:shit_ui_app/bot_shit/utils/services/ai/openai_manager.dart';
 
-final image_vary =
-    ChatCommand('ai_image_vary', "Upload an image to see an AI remake it!",
+ChatCommand get image_vary => ChatCommand('ai_image_vary', "Upload an image to see an AI remake it!",
 id('ai_image_vary', (
 ChatContext context,
             [@attachmentConverter

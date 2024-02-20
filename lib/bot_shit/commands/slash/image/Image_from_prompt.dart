@@ -23,7 +23,7 @@ import 'package:nyxx_commands/nyxx_commands.dart';
 import 'package:shit_ui_app/bot_shit/utils/nyxx_betterment/e_embed.dart';
 import 'package:shit_ui_app/bot_shit/utils/services/ai/openai_manager.dart';
 
-final image_prompt = ChatCommand('ai_image', "An image for your thoughts?",
+ChatCommand get image_prompt => ChatCommand('ai_image', "An image for your thoughts?",
 id('ai_image', (
 ChatContext context,
         [@Description('Get an image from the prompt that you say here!')

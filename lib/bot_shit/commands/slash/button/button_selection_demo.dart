@@ -22,7 +22,7 @@ import 'package:nyxx_commands/nyxx_commands.dart';
 import 'package:shit_ui_app/bot_shit/utils/prefab/selection_menu.dart';
 import 'package:shit_ui_app/bot_shit/utils/prefab/selection_menu_component.dart';
 
-final selectionMenuDemo = ChatCommand(
+ChatCommand get selectionMenuDemo => ChatCommand(
   'selectionmenudemo',
   "Showcases a demo for selection menus!",
 id('selectionmenudemo', (

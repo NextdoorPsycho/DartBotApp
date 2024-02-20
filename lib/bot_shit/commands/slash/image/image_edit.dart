@@ -28,7 +28,7 @@ import 'package:shit_ui_app/bot_shit/utils/nyxx_betterment/d_util.dart';
 import 'package:shit_ui_app/bot_shit/utils/nyxx_betterment/e_embed.dart';
 import 'package:shit_ui_app/bot_shit/utils/services/ai/openai_manager.dart';
 
-final image_edit = ChatCommand(
+ChatCommand get image_edit => ChatCommand(
     'ai_image_edit', "Upload an image to see an AI remake it!",
 id('ai_image_edit', (
 
