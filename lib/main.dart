@@ -10,6 +10,8 @@ import 'gen/main.g.dart' as g;
 import 'model/app_state.dart';
 
 void main() {
+  //TODO: dart run nyxx_commands:compile lib/main.dart --no-compile -o lib/gen/main.g.dart
+  //TODO: delete this line in that file:  " _main.main(); " (at the bottom!) *this fixes commands compiling*
   g.main([]); // Generated file.
   runApp(const MyApp());
   info('[App Started]');
