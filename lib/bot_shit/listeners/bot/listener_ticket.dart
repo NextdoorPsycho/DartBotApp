@@ -21,7 +21,6 @@ import 'package:nyxx/nyxx.dart';
 import 'package:shit_ui_app/bot_shit/utils/dartcord/bot_data.dart';
 import 'package:shit_ui_app/bot_shit/utils/nyxx_betterment/d_channel.dart';
 
-
 void onTicketIncListener(NyxxGateway client) {
   verbose("Registering Hi Ticket listeners");
   client.onMessageCreate.listen((event) async {

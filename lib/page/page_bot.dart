@@ -34,31 +34,40 @@ class _BotPageState extends State<BotPage> {
 
   @override
   Widget build(BuildContext context) {
+    // Use Theme.of(context) to get the current theme colors
+    Color statusColor = botFunctions.botStatus == BotStatus.off
+        ? Colors.grey // Consider making this dynamic too
+        : botFunctions.botStatus == BotStatus.on
+        ? Theme.of(context).colorScheme.secondary // Changed to use theme color
+        : Colors.red; // Consider making this dynamic too
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Your Discord Bot', style: TextStyle(fontWeight: FontWeight.bold, fontStyle: FontStyle.normal, fontSize: 24)),
+        title: const Text('Your Discord Bot',
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontStyle: FontStyle.normal,
+                fontSize: 24)),
         centerTitle: true,
         actions: [
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 0, 90, 0),
             child: Icon(
               Icons.circle,
-              color: botFunctions.botStatus == BotStatus.off ? Colors.grey : botFunctions.botStatus == BotStatus.on ? Colors.green : Colors.red,
+              color: statusColor, // Use the dynamic color here
             ),
           ),
         ],
       ),
       body: SingleChildScrollView(
         child: Column(
-          children: [
-            _buildBotToolsSection()
-          ],
+          children: [_buildBotToolsSection(context)], // Pass context if needed
         ),
       ),
     );
   }
 
-  Widget _buildBotToolsSection() {
+  Widget _buildBotToolsSection(BuildContext context) { // Context passed if needed for theme
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(
@@ -66,15 +75,23 @@ class _BotPageState extends State<BotPage> {
         child: Column(
           children: [
             ListTile(
-              title: Text(botFunctions.botStatus == BotStatus.off ? 'Start Bot' : 'Stop Bot'),
-              leading: Icon(botFunctions.botStatus == BotStatus.off ? Icons.play_arrow : Icons.stop),
+              title: Text(botFunctions.botStatus == BotStatus.off
+                  ? 'Start Bot'
+                  : 'Stop Bot'),
+              leading: Icon(botFunctions.botStatus == BotStatus.off
+                  ? Icons.play_arrow
+                  : Icons.stop),
               onTap: () => botFunctions.toggleBot((status) => setState(() {})),
-              subtitle: Text('Tap to ${botFunctions.botStatus == BotStatus.off ? 'start' : 'stop'} the bot'),
+              subtitle: Text(
+                  'Tap to ${botFunctions.botStatus == BotStatus.off ? 'start' : 'stop'} the bot'),
             ),
             const Divider(),
-            _textField('Bot Token', botTokenController, botFunctions.saveBotToken),
-            _textField('Owner ID', botOwnerIdController, botFunctions.saveOwnerId),
-            _textField('OpenAI Key', openaiKeyController, botFunctions.saveOpenAIKey),
+            _textField(
+                'Bot Token', botTokenController, botFunctions.saveBotToken),
+            _textField(
+                'Owner ID', botOwnerIdController, botFunctions.saveOwnerId),
+            _textField(
+                'OpenAI Key', openaiKeyController, botFunctions.saveOpenAIKey),
             const Divider(),
           ],
         ),
@@ -82,7 +99,8 @@ class _BotPageState extends State<BotPage> {
     );
   }
 
-  Widget _textField(String label, TextEditingController controller, Function(String) onSubmitted) {
+  Widget _textField(String label, TextEditingController controller,
+      Function(String) onSubmitted) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
       child: TextField(
@@ -90,6 +108,14 @@ class _BotPageState extends State<BotPage> {
         decoration: InputDecoration(
           labelText: label,
           border: const OutlineInputBorder(),
+          // Use theme colors for text field
+          labelStyle: TextStyle(color: Theme.of(context).colorScheme.onSurface),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Theme.of(context).colorScheme.surface),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Theme.of(context).colorScheme.primary),
+          ),
         ),
         onSubmitted: (value) {
           onSubmitted(value);
@@ -97,13 +123,5 @@ class _BotPageState extends State<BotPage> {
         },
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    botTokenController.dispose();
-    botOwnerIdController.dispose();
-    openaiKeyController.dispose();
-    super.dispose();
   }
 }

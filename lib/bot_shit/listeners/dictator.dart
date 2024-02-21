@@ -27,8 +27,6 @@ import 'package:shit_ui_app/bot_shit/listeners/other/listener_hello.dart';
 import 'package:shit_ui_app/bot_shit/listeners/other/listener_xp.dart';
 import 'package:shit_ui_app/bot_shit/listeners/other/ticket_listener.dart';
 import 'package:shit_ui_app/bot_shit/listeners/selector/listener_bing.dart';
-
-
 import 'bot/listener_ticket.dart';
 import 'button/cat_listener.dart';
 

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shit_ui_app/page/page_bot.dart';
 import 'package:shit_ui_app/page/page_user_control.dart';
 import 'package:shit_ui_app/page/page_utility.dart';
 
+import 'model/app_state.dart';
 
 class Aggregator extends StatefulWidget {
   const Aggregator({super.key});
@@ -19,9 +21,9 @@ class _AggregatorState extends State<Aggregator> {
       case 0:
         return const BotPage();
       case 1:
-        return const UserControl();
+        return UserControlPage();
       case 2:
-        return const UserControl();
+        return UserControlPage();
       case 3:
         return const MiscControl();
       default:
@@ -30,16 +32,29 @@ class _AggregatorState extends State<Aggregator> {
   }
 
   Widget _buildMobileLayout(BuildContext context, Widget mainArea) {
+    var theme = Theme.of(context);
     return Column(
       children: [
-        AppBar(title: const Text('Shitty Bot App')),
+        AppBar(title: const Text('Shitty Bot App'), backgroundColor: theme.primaryColor),
         Expanded(child: mainArea),
         BottomNavigationBar(
-          items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.newspaper_rounded), label: 'Bot', backgroundColor: Colors.deepPurpleAccent ),
-            BottomNavigationBarItem(icon: Icon(Icons.people_rounded), label: 'People', backgroundColor: Colors.green ),
-            BottomNavigationBarItem(icon: Icon(Icons.computer_rounded), label: 'Server', backgroundColor: Colors.deepOrangeAccent ),
-            BottomNavigationBarItem(icon: Icon(Icons.bug_report_rounded), label: 'Misc', backgroundColor: Colors.blueGrey ),
+          items: [
+            BottomNavigationBarItem(
+                icon: Icon(Icons.newspaper_rounded),
+                label: 'Bot',
+                backgroundColor: theme.primaryColor),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.people_rounded),
+                label: 'People',
+                backgroundColor: theme.primaryColor),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.computer_rounded),
+                label: 'Server',
+                backgroundColor: theme.primaryColor),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.bug_report_rounded),
+                label: 'Misc',
+                backgroundColor: theme.primaryColor),
           ],
           currentIndex: selectedIndex,
           onTap: (value) => setState(() => selectedIndex = value),
@@ -48,27 +63,36 @@ class _AggregatorState extends State<Aggregator> {
     );
   }
 
-
   Widget _buildTabletLayout(BuildContext context, Widget mainArea, double width) {
+    var theme = Theme.of(context);
     return Row(
       children: [
         SafeArea(
           child: NavigationRail(
-            extended: width >= 600,
+            backgroundColor: theme.brightness == Brightness.dark ? Colors.grey[850] : Colors.grey[300], // Adjusted for theme
+            selectedIconTheme: IconThemeData(color: theme.primaryColor),
+            unselectedIconTheme: IconThemeData(color: theme.primaryColor.withOpacity(0.5)),
             destinations: const [
-              NavigationRailDestination(icon: Icon(Icons.newspaper_rounded), label: Text('Bot')),
-              NavigationRailDestination(icon: Icon(Icons.people_rounded), label: Text('People')),
-              NavigationRailDestination(icon: Icon(Icons.computer_rounded), label: Text('Server')),
-              NavigationRailDestination(icon: Icon(Icons.bug_report_rounded), label: Text('Misc')),
+              NavigationRailDestination(
+                  icon: Icon(Icons.newspaper_rounded), label: Text('Bot')),
+              NavigationRailDestination(
+                  icon: Icon(Icons.people_rounded), label: Text('People')),
+              NavigationRailDestination(
+                  icon: Icon(Icons.computer_rounded), label: Text('Server')),
+              NavigationRailDestination(
+                  icon: Icon(Icons.bug_report_rounded), label: Text('Misc')),
             ],
             selectedIndex: selectedIndex,
-            onDestinationSelected: (value) => setState(() => selectedIndex = value),
+            onDestinationSelected: (value) =>
+                setState(() => selectedIndex = value),
           ),
         ),
         Expanded(child: mainArea),
       ],
     );
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +101,8 @@ class _AggregatorState extends State<Aggregator> {
 
     var mainArea = ColoredBox(
       color: colorScheme.surfaceVariant,
-      child: AnimatedSwitcher(duration: const Duration(milliseconds: 200), child: page),
+      child: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 200), child: page),
     );
 
     return Scaffold(
@@ -86,6 +111,16 @@ class _AggregatorState extends State<Aggregator> {
             ? _buildMobileLayout(context, mainArea)
             : _buildTabletLayout(context, mainArea, constraints.maxWidth),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Provider.of<BotDataModel>(context, listen: false).toggleTheme();
+        },
+        child: Icon(
+          // Choose the icon based on the theme mode
+          Theme.of(context).brightness == Brightness.dark ? Icons.wb_sunny_rounded : Icons.nightlight_round,
+        ),
+      ),
     );
+
   }
 }

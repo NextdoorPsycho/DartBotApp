@@ -22,7 +22,6 @@ import 'package:shit_ui_app/bot_shit/bot_cfg.dart';
 import 'package:shit_ui_app/bot_shit/utils/dartcord/user_data.dart';
 import 'package:shit_ui_app/bot_shit/utils/nyxx_betterment/d_user.dart';
 
-
 void onMessageXPAwardListener(NyxxGateway client) {
   verbose("Registering XP award listener");
   client.onMessageCreate.listen((event) async {

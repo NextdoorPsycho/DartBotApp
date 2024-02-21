@@ -21,7 +21,6 @@ import 'package:nyxx/nyxx.dart';
 import 'package:shit_ui_app/bot_shit/utils/prefab/selection_menu.dart';
 import 'package:shit_ui_app/bot_shit/utils/prefab/selection_menu_component.dart';
 
-
 void onBingButtonListener(NyxxGateway client) {
   verbose("Registering Bing button listener");
   client.onMessageComponentInteraction.listen((event) async {

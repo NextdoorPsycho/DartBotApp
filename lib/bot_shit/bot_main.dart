@@ -46,7 +46,8 @@ Future<bool> botStart() async {
 
     nyxxBotClient = await Nyxx.connectGateway(botToken,
         GatewayIntents.allUnprivileged | GatewayIntents.messageContent,
-        options: GatewayClientOptions(plugins: [logging, cliIntegration, commands]));
+        options:
+            GatewayClientOptions(plugins: [logging, cliIntegration, commands]));
     botUser = await nyxxBotClient.users.fetchCurrentUser();
 
     registerListeners(nyxxBotClient, commands); // Load all listeners
@@ -65,7 +66,6 @@ Future<bool> botStart() async {
     return false;
   }
 }
-
 
 Future<bool> botStop() async {
   try {

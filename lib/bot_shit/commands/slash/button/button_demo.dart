@@ -22,66 +22,80 @@ import 'package:nyxx_commands/nyxx_commands.dart';
 import 'package:shit_ui_app/bot_shit/utils/nyxx_betterment/d_button.dart';
 
 ChatCommand get buttonDemo => ChatCommand(
-  'buttondemo',
-  "Showcases a demo for buttons and interactions!",
-id('buttondemo', (
-    ChatContext context, [
-    @Choices({
-      '1 Button': 'ONE',
-      '2 Buttons': 'TWO',
-      '3 Buttons': 'THREE',
-    })
-    @Description('Numeral for buttons to showcase')
-    String? selection,
-  ]) async {
-    verbose("Command invoked: buttondemo with selection: $selection");
+    'buttondemo',
+    "Showcases a demo for buttons and interactions!",
+    id(
+      'buttondemo',
+      (
+        ChatContext context, [
+        @Choices({
+          '1 Button': 'ONE',
+          '2 Buttons': 'TWO',
+          '3 Buttons': 'THREE',
+        })
+        @Description('Numeral for buttons to showcase')
+        String? selection,
+      ]) async {
+        verbose("Command invoked: buttondemo with selection: $selection");
 
-    List<ButtonBuilder> buttons = [];
+        List<ButtonBuilder> buttons = [];
 
-    try {
-      switch (selection) {
-        case 'ONE':
-          buttons.add(d_button(
-              label: "Cat!", style: ButtonStyle.secondary, customId: "cat"));
-          info("One button added.");
-          break;
-        case 'TWO':
-          buttons
-            ..add(d_button(
-                label: "One!", style: ButtonStyle.secondary, customId: "cat"))
-            ..add(d_button(
-                label: "Two!", style: ButtonStyle.secondary, customId: "bing"));
-          info("Two buttons added.");
-          break;
-        case 'THREE':
-          buttons
-            ..add(d_button(
-                label: "One!", style: ButtonStyle.secondary, customId: "cat"))
-            ..add(d_button(
-                label: "Two!", style: ButtonStyle.secondary, customId: "bing"))
-            ..add(d_button(
-                label: "Dog!", style: ButtonStyle.secondary, customId: "dog"));
-          info("Three buttons added.");
-          break;
-        default:
-          error("Unexpected selection: $selection");
-          throw StateError('Unexpected selection $selection');
-      }
+        try {
+          switch (selection) {
+            case 'ONE':
+              buttons.add(d_button(
+                  label: "Cat!",
+                  style: ButtonStyle.secondary,
+                  customId: "cat"));
+              info("One button added.");
+              break;
+            case 'TWO':
+              buttons
+                ..add(d_button(
+                    label: "One!",
+                    style: ButtonStyle.secondary,
+                    customId: "cat"))
+                ..add(d_button(
+                    label: "Two!",
+                    style: ButtonStyle.secondary,
+                    customId: "bing"));
+              info("Two buttons added.");
+              break;
+            case 'THREE':
+              buttons
+                ..add(d_button(
+                    label: "One!",
+                    style: ButtonStyle.secondary,
+                    customId: "cat"))
+                ..add(d_button(
+                    label: "Two!",
+                    style: ButtonStyle.secondary,
+                    customId: "bing"))
+                ..add(d_button(
+                    label: "Dog!",
+                    style: ButtonStyle.secondary,
+                    customId: "dog"));
+              info("Three buttons added.");
+              break;
+            default:
+              error("Unexpected selection: $selection");
+              throw StateError('Unexpected selection $selection');
+          }
 
-      // Construct the message with buttons
-      var message = MessageBuilder()
-        ..content = 'Buttons will be here!'
-        ..components = [ActionRowBuilder(components: buttons)];
+          // Construct the message with buttons
+          var message = MessageBuilder()
+            ..content = 'Buttons will be here!'
+            ..components = [ActionRowBuilder(components: buttons)];
 
-      await context.respond(message,
-          level: buttons.length == 3
-              ? ResponseLevel.private
-              : ResponseLevel.public);
-      verbose("Message with buttons sent.");
-    } catch (e) {
-      error("Error in buttonDemo: ${e.toString()}");
-      await context.respond(MessageBuilder(content: "An error occurred."),
-          level: ResponseLevel.private);
-    }
-  },
-));
+          await context.respond(message,
+              level: buttons.length == 3
+                  ? ResponseLevel.private
+                  : ResponseLevel.public);
+          verbose("Message with buttons sent.");
+        } catch (e) {
+          error("Error in buttonDemo: ${e.toString()}");
+          await context.respond(MessageBuilder(content: "An error occurred."),
+              level: ResponseLevel.private);
+        }
+      },
+    ));

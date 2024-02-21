@@ -23,50 +23,51 @@ import 'package:shit_ui_app/bot_shit/utils/prefab/selection_menu.dart';
 import 'package:shit_ui_app/bot_shit/utils/prefab/selection_menu_component.dart';
 
 ChatCommand get selectionMenuDemo => ChatCommand(
-  'selectionmenudemo',
-  "Showcases a demo for selection menus!",
-id('selectionmenudemo', (
-ChatContext context) async {
-    verbose("Command invoked: selectionmenudemo");
+    'selectionmenudemo',
+    "Showcases a demo for selection menus!",
+    id(
+      'selectionmenudemo',
+      (ChatContext context) async {
+        verbose("Command invoked: selectionmenudemo");
 
-    try {
-      // Define options for the selection menu
-      var options = [
-        dartcordSelectionMenuOption(
-          label: "Option 1",
-          value: "option_1",
-          description: "Description for option 1",
-        ),
-        dartcordSelectionMenuOption(
-          label: "Option 2",
-          value: "option_2",
-          description: "Description for option 2",
-        ),
-      ];
-      verbose("Selection menu options defined.");
+        try {
+          // Define options for the selection menu
+          var options = [
+            dartcordSelectionMenuOption(
+              label: "Option 1",
+              value: "option_1",
+              description: "Description for option 1",
+            ),
+            dartcordSelectionMenuOption(
+              label: "Option 2",
+              value: "option_2",
+              description: "Description for option 2",
+            ),
+          ];
+          verbose("Selection menu options defined.");
 
-      // Create the selection menu
-      var selectionMenu = await dartcordSelectionMenu(
-          customId: "selection_menu_demo",
-          options: options,
-          placeholder: "Choose an option",
-          maxValues: 2,
-          minValues: 0);
-      verbose("Selection menu created.");
+          // Create the selection menu
+          var selectionMenu = await dartcordSelectionMenu(
+              customId: "selection_menu_demo",
+              options: options,
+              placeholder: "Choose an option",
+              maxValues: 2,
+              minValues: 0);
+          verbose("Selection menu created.");
 
-      // Construct the message with the selection menu
-      var message = MessageBuilder()
-        ..content = 'Selection menu will be here!'
-        ..components = [
-          ActionRowBuilder(components: [selectionMenu])
-        ];
+          // Construct the message with the selection menu
+          var message = MessageBuilder()
+            ..content = 'Selection menu will be here!'
+            ..components = [
+              ActionRowBuilder(components: [selectionMenu])
+            ];
 
-      await context.respond(message, level: ResponseLevel.public);
-      verbose("Message with selection menu sent.");
-    } catch (e) {
-      error("Error in selectionMenuDemo: ${e.toString()}");
-      await context.respond(MessageBuilder(content: "An error occurred."),
-          level: ResponseLevel.private);
-    }
-  },
-));
+          await context.respond(message, level: ResponseLevel.public);
+          verbose("Message with selection menu sent.");
+        } catch (e) {
+          error("Error in selectionMenuDemo: ${e.toString()}");
+          await context.respond(MessageBuilder(content: "An error occurred."),
+              level: ResponseLevel.private);
+        }
+      },
+    ));

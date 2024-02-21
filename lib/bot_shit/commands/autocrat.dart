@@ -28,7 +28,6 @@ import 'package:shit_ui_app/bot_shit/commands/slash/image/image_variant.dart';
 import 'package:shit_ui_app/bot_shit/commands/slash/ping/ping_collection.dart';
 import 'package:shit_ui_app/bot_shit/commands/slash/ticket/ticket_collection.dart';
 
-
 void autocrat(CommandsPlugin commands) {
   verbose("Registering commands");
   commands.addCommand(pingCluster);

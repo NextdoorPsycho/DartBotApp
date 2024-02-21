@@ -21,23 +21,24 @@ import 'package:nyxx/nyxx.dart';
 import 'package:nyxx_commands/nyxx_commands.dart';
 import 'package:shit_ui_app/bot_shit/utils/nyxx_betterment/e_embed.dart';
 
-ChatCommand get cat => ChatCommand('cat_embed', "Le' Mew meow!",
-id('cat_embed', (
-ChatContext context) async {
-  verbose("Command invoked: cat_embed");
+ChatCommand get cat => ChatCommand(
+    'cat_embed',
+    "Le' Mew meow!",
+    id('cat_embed', (ChatContext context) async {
+      verbose("Command invoked: cat_embed");
 
-  try {
-    // Using Custom Embed
-    var embed = await d_embed(fields: [
-      EmbedFieldBuilder(name: "Behold", value: "The cat!", isInline: true)
-    ]);
-    await context.respond(MessageBuilder(embeds: [embed]),
-        level: ResponseLevel.private);
+      try {
+        // Using Custom Embed
+        var embed = await d_embed(fields: [
+          EmbedFieldBuilder(name: "Behold", value: "The cat!", isInline: true)
+        ]);
+        await context.respond(MessageBuilder(embeds: [embed]),
+            level: ResponseLevel.private);
 
-    verbose("Cat embed message sent.");
-  } catch (e) {
-    error("Error in cat_embed command: ${e.toString()}");
-    await context.respond(MessageBuilder(content: "An error occurred."),
-        level: ResponseLevel.private);
-  }
-}));
+        verbose("Cat embed message sent.");
+      } catch (e) {
+        error("Error in cat_embed command: ${e.toString()}");
+        await context.respond(MessageBuilder(content: "An error occurred."),
+            level: ResponseLevel.private);
+      }
+    }));

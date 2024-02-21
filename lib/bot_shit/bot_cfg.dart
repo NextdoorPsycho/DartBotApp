@@ -46,7 +46,6 @@ class BotCFG {
     BotCFG.fromJson(configData);
   }
 
-
   static final BotCFG _i = BotCFG._internal();
 
   String botImageURL;
