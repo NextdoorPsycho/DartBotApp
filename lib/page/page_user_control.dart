@@ -31,55 +31,97 @@ class _UserControlPageState extends State<UserControlPage> {
 
   @override
   Widget build(BuildContext context) {
-    // Use Theme.of(context) to get the current theme's colors
     ColorScheme colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('User Control'),
-        backgroundColor: colorScheme.primary, // Adapt to theme
+        backgroundColor: colorScheme.primary,
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: Card(
-              elevation: 4.0,
-              margin: const EdgeInsets.all(8.0),
-              child: Padding(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'User Statistics',
-                      style: Theme.of(context).textTheme.headline6,
-                    ),
-                    const SizedBox(height: 8.0),
-                    Text('Total Users: $totalUsers',
-                        style: TextStyle(fontSize: 16, color: colorScheme.onSurface)), // Adapt text color to theme
-                    Text('Online: $onlineUsers / Offline: $offlineUsers',
-                        style: TextStyle(fontSize: 16, color: colorScheme.onSurface)), // Adapt text color to theme
-                    const SizedBox(height: 16.0),
-                    ElevatedButton(
-                      onPressed: () => _showUserList(context),
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: colorScheme.onPrimary, // Adapt text color to theme
-                        backgroundColor: colorScheme.primary, // Button background color
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+                  decoration: BoxDecoration(
+                    color: colorScheme.surface,
+                    borderRadius: BorderRadius.circular(12.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        spreadRadius: 0,
+                        blurRadius: 8,
+                        offset: const Offset(0, 2),
                       ),
-                      child: const Text('View Users'),
-                    ),
-                  ],
+                    ],
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'User Statistics',
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(color: colorScheme.onSurface),
+                      ),
+                      const SizedBox(height: 8.0),
+                      Text('Total Users: $totalUsers', style: TextStyle(fontSize: 16, color: colorScheme.onSurface)),
+                      Text('Online: $onlineUsers / Offline: $offlineUsers', style: TextStyle(fontSize: 16, color: colorScheme.onSurface)),
+                      const SizedBox(height: 16.0),
+                      ElevatedButton(
+                        onPressed: () => _showUserList(context),
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: colorScheme.onPrimary,
+                          backgroundColor: colorScheme.primary,
+                        ),
+                        child: const Text('View Users'),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+                  decoration: BoxDecoration(
+                    color: colorScheme.surface,
+                    borderRadius: BorderRadius.circular(12.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        spreadRadius: 0,
+                        blurRadius: 8,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('User Actions', style: TextStyle(fontSize: 18, color: colorScheme.onSurface)),
+                      // Placeholder for user actions
+                      const SizedBox(height: 8.0),
+                      TextButton.icon(
+                        onPressed: () {},
+                        icon: Icon(Icons.refresh, color: colorScheme.primary),
+                        label: Text('Refresh', style: TextStyle(color: colorScheme.primary)),
+                      ),
+                      TextButton.icon(
+                        onPressed: () {},
+                        icon: Icon(Icons.add, color: colorScheme.primary),
+                        label: Text('Add User', style: TextStyle(color: colorScheme.primary)),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
-          Expanded(
-            child: Container(
-              padding: const EdgeInsets.all(8.0),
-              child: Text('User Actions', style: TextStyle(fontSize: 18, color: colorScheme.onSurface)), // Adapt text color to theme
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
@@ -90,7 +132,7 @@ class _UserControlPageState extends State<UserControlPage> {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return Container(
+        return SizedBox(
           height: 200,
           child: Column(
             children: [

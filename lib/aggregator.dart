@@ -21,9 +21,9 @@ class _AggregatorState extends State<Aggregator> {
       case 0:
         return const BotPage();
       case 1:
-        return UserControlPage();
+        return const UserControlPage();
       case 2:
-        return UserControlPage();
+        return const UserControlPage();
       case 3:
         return const MiscControl();
       default:
@@ -38,21 +38,22 @@ class _AggregatorState extends State<Aggregator> {
         AppBar(title: const Text('Shitty Bot App'), backgroundColor: theme.primaryColor),
         Expanded(child: mainArea),
         BottomNavigationBar(
+          backgroundColor: theme.cardColor,
           items: [
             BottomNavigationBarItem(
-                icon: Icon(Icons.newspaper_rounded),
+                icon: const Icon(Icons.newspaper_rounded),
                 label: 'Bot',
                 backgroundColor: theme.primaryColor),
             BottomNavigationBarItem(
-                icon: Icon(Icons.people_rounded),
+                icon: const Icon(Icons.people_rounded),
                 label: 'People',
                 backgroundColor: theme.primaryColor),
             BottomNavigationBarItem(
-                icon: Icon(Icons.computer_rounded),
+                icon: const Icon(Icons.computer_rounded),
                 label: 'Server',
                 backgroundColor: theme.primaryColor),
             BottomNavigationBarItem(
-                icon: Icon(Icons.bug_report_rounded),
+                icon: const Icon(Icons.bug_report_rounded),
                 label: 'Misc',
                 backgroundColor: theme.primaryColor),
           ],
@@ -69,9 +70,9 @@ class _AggregatorState extends State<Aggregator> {
       children: [
         SafeArea(
           child: NavigationRail(
-            backgroundColor: theme.brightness == Brightness.dark ? Colors.grey[850] : Colors.grey[300], // Adjusted for theme
-            selectedIconTheme: IconThemeData(color: theme.primaryColor),
-            unselectedIconTheme: IconThemeData(color: theme.primaryColor.withOpacity(0.5)),
+            backgroundColor: theme.brightness == Brightness.dark ? Colors.grey[850] : Colors.grey[3040], // Adjusted for theme
+            selectedIconTheme: IconThemeData(color: theme.focusColor),
+            unselectedIconTheme: IconThemeData(color: theme.hoverColor.withOpacity(0.5)),
             destinations: const [
               NavigationRailDestination(
                   icon: Icon(Icons.newspaper_rounded), label: Text('Bot')),

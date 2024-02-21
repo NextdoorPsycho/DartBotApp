@@ -186,7 +186,7 @@ ChatGroup get ticketCluster => ChatGroup("ticket",
                         MessageBuilder(
                             content:
                                 "You need to properly provide the USERID, enable developer mode if you need to."),
-                        level: ResponseLevel(
+                        level: const ResponseLevel(
                             hideInteraction: true,
                             isDm: false,
                             mention: true,
@@ -205,7 +205,7 @@ ChatGroup get ticketCluster => ChatGroup("ticket",
                           MessageBuilder(
                               content:
                                   "This went well. Added them to be able to view."),
-                          level: ResponseLevel(
+                          level: const ResponseLevel(
                               hideInteraction: true,
                               isDm: false,
                               mention: true,
@@ -219,7 +219,7 @@ ChatGroup get ticketCluster => ChatGroup("ticket",
                       context.respond(
                           MessageBuilder(
                               content: "This went well. Removed view access"),
-                          level: ResponseLevel(
+                          level: const ResponseLevel(
                               hideInteraction: true,
                               isDm: false,
                               mention: true,

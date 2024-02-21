@@ -73,7 +73,7 @@ ChatCommand get embed => ChatCommand(
           ..description =
               "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s."
           ..footer = EmbedFooterBuilder(
-              text: "Made by: " + BotCFG.i.botCompanyName + " - " + footer,
+              text: "Made by: ${BotCFG.i.botCompanyName} - $footer",
               iconUrl: Uri.parse(BotCFG.i.botImageURL));
 
         await context.respond(MessageBuilder(embeds: [embed]),

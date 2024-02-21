@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class MiscControl extends StatefulWidget {
-  const MiscControl({Key? key}) : super(key: key);
+  const MiscControl({super.key});
 
   @override
   State<MiscControl> createState() => _MiscControlState();
@@ -36,23 +36,23 @@ class _MiscControlState extends State<MiscControl> {
 
   Widget _buildSection(String title, VoidCallback onPressed, ThemeData theme) {
     return ExpansionTile(
-      title: Text(title, style: TextStyle(color: theme.textTheme.bodyText1?.color)), // Custom text color
+      title: Text(title, style: TextStyle(color: theme.textTheme.bodyLarge?.color)), // Custom text color
       backgroundColor: theme.canvasColor, // Custom background color
       children: [
         ListTile(
           title: const Text('Button 1'),
           onTap: onPressed,
-          textColor: theme.textTheme.bodyText1?.color, // Ensuring text color matches theme
+          textColor: theme.textTheme.bodyLarge?.color, // Ensuring text color matches theme
         ),
         ListTile(
           title: const Text('Button 2'),
           onTap: onPressed,
-          textColor: theme.textTheme.bodyText1?.color, // Ensuring text color matches theme
+          textColor: theme.textTheme.bodyLarge?.color, // Ensuring text color matches theme
         ),
         ListTile(
           title: const Text('Button 3'),
           onTap: onPressed,
-          textColor: theme.textTheme.bodyText1?.color, // Ensuring text color matches theme
+          textColor: theme.textTheme.bodyLarge?.color, // Ensuring text color matches theme
         ),
       ],
     );

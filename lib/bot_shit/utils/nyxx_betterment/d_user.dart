@@ -38,7 +38,7 @@ class DUser {
         return isBot(entity: (entity as Member).id);
       case Snowflake _:
         return isBot(
-            entity: await nyxxBotClient!.user.manager.get(entity as Snowflake));
+            entity: await nyxxBotClient.user.manager.get(entity as Snowflake));
       case Message _:
         return isBot(entity: (entity as MessageCreateEvent).message.author.id);
       case Webhook _:

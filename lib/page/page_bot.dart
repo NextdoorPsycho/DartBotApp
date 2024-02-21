@@ -34,44 +34,60 @@ class _BotPageState extends State<BotPage> {
 
   @override
   Widget build(BuildContext context) {
-    // Use Theme.of(context) to get the current theme colors
+    ColorScheme colorScheme = Theme
+        .of(context)
+        .colorScheme;
     Color statusColor = botFunctions.botStatus == BotStatus.off
-        ? Colors.grey // Consider making this dynamic too
+        ? Colors.red
         : botFunctions.botStatus == BotStatus.on
-        ? Theme.of(context).colorScheme.secondary // Changed to use theme color
-        : Colors.red; // Consider making this dynamic too
+        ? colorScheme.secondary
+        : Colors.green;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Your Discord Bot',
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontStyle: FontStyle.normal,
-                fontSize: 24)),
+        title: const Text('Your Discord Bot', style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontStyle: FontStyle.normal,
+            fontSize: 24)),
         centerTitle: true,
         actions: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(0, 0, 90, 0),
-            child: Icon(
-              Icons.circle,
-              color: statusColor, // Use the dynamic color here
-            ),
+            padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
+            child: Icon(Icons.circle, color: statusColor),
           ),
         ],
+        backgroundColor: colorScheme.primary,
       ),
       body: SingleChildScrollView(
         child: Column(
-          children: [_buildBotToolsSection(context)], // Pass context if needed
+          children: [_buildBotToolsSection(context)],
         ),
       ),
     );
   }
 
-  Widget _buildBotToolsSection(BuildContext context) { // Context passed if needed for theme
+  Widget _buildBotToolsSection(BuildContext context) {
+    ColorScheme colorScheme = Theme
+        .of(context)
+        .colorScheme;
+
     return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Card(
-        elevation: 2,
+      padding: const EdgeInsets.all(16.0),
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+        decoration: BoxDecoration(
+          color: colorScheme.surface,
+          borderRadius: BorderRadius.circular(12.0),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              spreadRadius: 0,
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
         child: Column(
           children: [
             ListTile(
@@ -80,18 +96,23 @@ class _BotPageState extends State<BotPage> {
                   : 'Stop Bot'),
               leading: Icon(botFunctions.botStatus == BotStatus.off
                   ? Icons.play_arrow
-                  : Icons.stop),
+                  : Icons.stop, color: colorScheme.onSurface),
               onTap: () => botFunctions.toggleBot((status) => setState(() {})),
-              subtitle: Text(
-                  'Tap to ${botFunctions.botStatus == BotStatus.off ? 'start' : 'stop'} the bot'),
+              subtitle: Text('Tap to ${botFunctions.botStatus == BotStatus.off
+                  ? 'start'
+                  : 'stop'} the bot',
+                  style: TextStyle(color: colorScheme.onSurface)),
             ),
             const Divider(),
             _textField(
-                'Bot Token', botTokenController, botFunctions.saveBotToken),
+                'Bot Token', botTokenController, botFunctions.saveBotToken,
+                context),
             _textField(
-                'Owner ID', botOwnerIdController, botFunctions.saveOwnerId),
+                'Owner ID', botOwnerIdController, botFunctions.saveOwnerId,
+                context),
             _textField(
-                'OpenAI Key', openaiKeyController, botFunctions.saveOpenAIKey),
+                'OpenAI Key', openaiKeyController, botFunctions.saveOpenAIKey,
+                context),
             const Divider(),
           ],
         ),
@@ -100,7 +121,11 @@ class _BotPageState extends State<BotPage> {
   }
 
   Widget _textField(String label, TextEditingController controller,
-      Function(String) onSubmitted) {
+      Function(String) onSubmitted, BuildContext context) {
+    ColorScheme colorScheme = Theme
+        .of(context)
+        .colorScheme;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
       child: TextField(
@@ -108,18 +133,16 @@ class _BotPageState extends State<BotPage> {
         decoration: InputDecoration(
           labelText: label,
           border: const OutlineInputBorder(),
-          // Use theme colors for text field
-          labelStyle: TextStyle(color: Theme.of(context).colorScheme.onSurface),
+          labelStyle: TextStyle(color: colorScheme.onSurface),
           enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Theme.of(context).colorScheme.surface),
+            borderSide: BorderSide(color: colorScheme.surface),
           ),
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Theme.of(context).colorScheme.primary),
+            borderSide: BorderSide(color: colorScheme.primary),
           ),
         ),
         onSubmitted: (value) {
           onSubmitted(value);
-          setState(() {});
         },
       ),
     );

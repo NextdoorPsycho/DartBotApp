@@ -107,7 +107,7 @@ class DChannel {
     required ChannelType channelType,
     required bool checkDuplicate,
     required bool isPrivate,
-    GuildCategory? inCategory = null,
+    GuildCategory? inCategory,
     List<dynamic> allowedUsers = const [],
   }) async {
     // Check for duplicate channels if required
@@ -151,8 +151,7 @@ class DChannel {
     // Create channel based on the specified type
     try {
       verbose(
-          "Creating $channelType channel: $channelName in guild: ${guild.id}" +
-              (inCategory != null ? " in category: ${inCategory.name}" : ""));
+          "Creating $channelType channel: $channelName in guild: ${guild.id}${inCategory != null ? " in category: ${inCategory.name}" : ""}");
       GuildChannelBuilder builder;
       GuildChannel newChannel;
 

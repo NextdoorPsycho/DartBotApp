@@ -29,9 +29,7 @@ ButtonBuilder d_button({
 }) {
   label = label ?? '';
   style = style;
-  emoji ??= null;
   customId = customId ?? '';
-  url ??= null;
   isDisabled ??= false;
   verbose("Building button: $label");
   return ButtonBuilder(
