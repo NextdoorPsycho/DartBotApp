@@ -10,6 +10,7 @@ class BotFunctions {
   late String botToken;
   late String botOwnerId;
   late String openaiKey;
+  late String serverId;
   BotStatus botStatus = BotStatus.off;
 
   Future<void> loadSavedData() async {
@@ -17,6 +18,7 @@ class BotFunctions {
     botToken = prefs.getString('botToken') ?? '';
     botOwnerId = prefs.getString('ownerId') ?? '';
     openaiKey = prefs.getString('openaiKey') ?? '';
+    serverId = prefs.getString('serverId') ?? '';
   }
 
   Future<void> saveBotToken(String value) async {
@@ -24,7 +26,6 @@ class BotFunctions {
     await prefs.setString('botToken', value);
     botToken = value;
   }
-
   Future<void> saveOwnerId(String value) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('ownerId', value);
@@ -37,12 +38,20 @@ class BotFunctions {
     openaiKey = value;
   }
 
+
+  Future<void> saveServerId(String value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('serverId', value);
+    serverId = value;
+  }
+
   void toggleBot(Function(BotStatus) onStatusChange) {
     if (botStatus == BotStatus.off) {
       info('Starting bot...');
       info('Bot Token: $botToken');
       info('Owner ID: $botOwnerId');
       info('OpenAI Key: $openaiKey');
+      info('Server ID: $serverId');
       botStart().then((value) {
         if (value) {
           success('Bot started successfully.');

@@ -13,6 +13,7 @@ class _BotPageState extends State<BotPage> {
   late TextEditingController botTokenController;
   late TextEditingController botOwnerIdController;
   late TextEditingController openaiKeyController;
+  late TextEditingController serverIdSnowflake;
 
   @override
   void initState() {
@@ -20,6 +21,7 @@ class _BotPageState extends State<BotPage> {
     botTokenController = TextEditingController();
     botOwnerIdController = TextEditingController();
     openaiKeyController = TextEditingController();
+    serverIdSnowflake = TextEditingController();
     loadSavedData();
   }
 
@@ -29,6 +31,7 @@ class _BotPageState extends State<BotPage> {
       botTokenController.text = botFunctions.botToken;
       botOwnerIdController.text = botFunctions.botOwnerId;
       openaiKeyController.text = botFunctions.openaiKey;
+      serverIdSnowflake.text = botFunctions.serverId;
     });
   }
 
@@ -112,6 +115,9 @@ class _BotPageState extends State<BotPage> {
                 context),
             _textField(
                 'OpenAI Key', openaiKeyController, botFunctions.saveOpenAIKey,
+                context),
+            _textField(
+                'Server ID', serverIdSnowflake, botFunctions.saveServerId,
                 context),
             const Divider(),
           ],

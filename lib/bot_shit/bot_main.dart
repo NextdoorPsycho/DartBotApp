@@ -1,21 +1,3 @@
-/*
- * This is a project by ArcaneArts, for free/public use!
- * Copyright (c) 2023 Arcane Arts (Volmit Software)
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
- */
-
 import 'package:fast_log/fast_log.dart';
 import 'package:nyxx/nyxx.dart';
 import 'package:nyxx_commands/nyxx_commands.dart';
@@ -29,6 +11,7 @@ import 'listeners/dictator.dart';
 
 late NyxxGateway nyxxBotClient;
 late User botUser;
+late int botServerId;
 
 Future<bool> botStart() async {
   try {
@@ -39,13 +22,15 @@ Future<bool> botStart() async {
     // Access the properties after ensuring they are loaded
     String botToken = botFunctions.botToken;
     String aiToken = botFunctions.openaiKey;
+    botServerId = int.parse(botFunctions.serverId.toString());
+    info("$botServerId");
 
     await initializeConfig();
     final commands = CommandsPlugin(prefix: mentionOr((_) => '!'));
     autocrat(commands); // Load all commands
 
     nyxxBotClient = await Nyxx.connectGateway(botToken,
-        GatewayIntents.allUnprivileged | GatewayIntents.messageContent,
+        GatewayIntents.allUnprivileged | GatewayIntents.messageContent | GatewayIntents.guildPresences |GatewayIntents.guildMembers,
         options:
             GatewayClientOptions(plugins: [logging, cliIntegration, commands]));
     botUser = await nyxxBotClient.users.fetchCurrentUser();
@@ -77,4 +62,12 @@ Future<bool> botStop() async {
     error("Failed to stop the bot: $e");
     return false;
   }
+}
+
+class BotObjects{
+  // getter for the botUser and botClient
+  NyxxGateway get botNyxxClient => nyxxBotClient;
+  User get botClient => botUser;
+  Snowflake get botId => botUser.id;
+  Future<Guild> get botGuild  => nyxxBotClient.guilds.get(Snowflake(botServerId));
 }

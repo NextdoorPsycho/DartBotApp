@@ -1,6 +1,11 @@
+import 'package:fast_log/fast_log.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:nyxx/nyxx.dart';
 
 import 'dart:async';
+
+import 'package:shit_ui_app/bot_shit/utils/dartcord/bot_cryptography.dart';
 
 class UserControlPage extends StatefulWidget {
   const UserControlPage({super.key});
@@ -10,23 +15,51 @@ class UserControlPage extends StatefulWidget {
 }
 
 class _UserControlPageState extends State<UserControlPage> {
-  int totalUsers = 0; // Placeholder for user statistics
-  int onlineUsers = 0; // Placeholder for online users
-  int offlineUsers = 0; // Placeholder for offline users
-  List<String> userList = ["User1", "User2"]; // Example user list
+  Timer? _timer;
+  int totalUsers = 0;
+  int onlineUsers = 0;
+  int offlineUsers = 0;
+  Map<String, Snowflake> userList = {};   // Changed from Future<List<String>?> to Map<String, int>.
 
   @override
   void initState() {
     super.initState();
-    Timer.periodic(
-        const Duration(seconds: 10), (Timer t) => fetchUserStatistics());
+    fetchUserList();  // Call fetchUserList() in initState.
   }
 
-  void fetchUserStatistics() {
-    // Placeholder function to simulate fetching data
-    setState(() {
-      // Update your statistics here
-    });
+  Future<void> fetchUserList() async {
+    userList = (await BotCryptography().gatherMembers())!;
+    for (var entry in userList.entries) {
+      info('${entry.key} - ${entry.value}');
+    }
+  }
+
+  @override
+  void didChangeDependencies() {
+    _timer = Timer.periodic(
+        const Duration(seconds: 3),
+        (Timer t) {
+          if(mounted) {
+            fetchUserStatistics();
+          }
+        });
+    super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  Future<void> fetchUserStatistics() async {
+    totalUsers = await BotCryptography().computeMembers();
+    info("Checked Member list: $totalUsers");
+    if (mounted) {
+      setState(() {
+        // Update statistics here
+      });
+    }
   }
 
   @override
@@ -152,11 +185,12 @@ class _UserControlPageState extends State<UserControlPage> {
                     itemCount: userList.length,
                     itemBuilder: (context, index) {
                       return ListTile(
-                        title: Text(userList[index]),
+                        title: Text(userList.keys.elementAt(index)),
                         trailing: IconButton(
                           icon: const Icon(Icons.copy),
                           onPressed: () {
-                            // Implement copy functionality
+                            Clipboard.setData(
+                                ClipboardData(text: userList[userList.keys.elementAt(index)].toString()));
                           },
                         ),
                       );
