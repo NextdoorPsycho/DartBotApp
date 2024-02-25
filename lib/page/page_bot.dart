@@ -70,6 +70,7 @@ class _BotPageState extends State<BotPage> {
           _clearData();
           _previousTotalUsers = 0;
           _previousUserList.clear();
+          userList.clear();
           setState(() {
             error("STATE WAS CLEARED");
             // Update statistics here
