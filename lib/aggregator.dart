@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shit_ui_app/page/page_bot.dart';
-import 'package:shit_ui_app/page/page_user_control.dart';
-import 'package:shit_ui_app/page/page_utility.dart';
 
 import 'model/app_state.dart';
 
@@ -21,11 +19,7 @@ class _AggregatorState extends State<Aggregator> {
       case 0:
         return const BotPage();
       case 1:
-        return const UserControlPage();
-      case 2:
-        return const UserControlPage();
-      case 3:
-        return const MiscControl();
+        return const BotPage();
       default:
         throw UnimplementedError('no widget for $index');
     }
@@ -35,22 +29,12 @@ class _AggregatorState extends State<Aggregator> {
     var theme = Theme.of(context);
     return Column(
       children: [
-        AppBar(title: const Text('Shitty Bot App'), backgroundColor: theme.primaryColor),
         Expanded(child: mainArea),
         BottomNavigationBar(
-          backgroundColor: theme.cardColor,
           items: [
             BottomNavigationBarItem(
                 icon: const Icon(Icons.newspaper_rounded),
                 label: 'Bot',
-                backgroundColor: theme.primaryColor),
-            BottomNavigationBarItem(
-                icon: const Icon(Icons.people_rounded),
-                label: 'People',
-                backgroundColor: theme.primaryColor),
-            BottomNavigationBarItem(
-                icon: const Icon(Icons.computer_rounded),
-                label: 'Server',
                 backgroundColor: theme.primaryColor),
             BottomNavigationBarItem(
                 icon: const Icon(Icons.bug_report_rounded),
@@ -64,22 +48,16 @@ class _AggregatorState extends State<Aggregator> {
     );
   }
 
-  Widget _buildTabletLayout(BuildContext context, Widget mainArea, double width) {
+  Widget _buildTabletLayout(
+      BuildContext context, Widget mainArea, double width) {
     var theme = Theme.of(context);
     return Row(
       children: [
         SafeArea(
           child: NavigationRail(
-            backgroundColor: theme.brightness == Brightness.dark ? Colors.grey[850] : Colors.grey[3040], // Adjusted for theme
-            selectedIconTheme: IconThemeData(color: theme.focusColor),
-            unselectedIconTheme: IconThemeData(color: theme.hoverColor.withOpacity(0.5)),
             destinations: const [
               NavigationRailDestination(
                   icon: Icon(Icons.newspaper_rounded), label: Text('Bot')),
-              NavigationRailDestination(
-                  icon: Icon(Icons.people_rounded), label: Text('People')),
-              NavigationRailDestination(
-                  icon: Icon(Icons.computer_rounded), label: Text('Server')),
               NavigationRailDestination(
                   icon: Icon(Icons.bug_report_rounded), label: Text('Misc')),
             ],
@@ -92,8 +70,6 @@ class _AggregatorState extends State<Aggregator> {
       ],
     );
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -118,10 +94,11 @@ class _AggregatorState extends State<Aggregator> {
         },
         child: Icon(
           // Choose the icon based on the theme mode
-          Theme.of(context).brightness == Brightness.dark ? Icons.wb_sunny_rounded : Icons.nightlight_round,
+          Theme.of(context).brightness == Brightness.dark
+              ? Icons.wb_sunny_rounded
+              : Icons.nightlight_round,
         ),
       ),
     );
-
   }
 }

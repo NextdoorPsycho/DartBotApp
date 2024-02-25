@@ -1,9 +1,9 @@
 import 'package:fast_log/fast_log.dart';
 import 'package:nyxx/nyxx.dart';
 import 'package:nyxx_commands/nyxx_commands.dart';
-import 'package:shit_ui_app/bot_functions.dart';
 import 'package:shit_ui_app/bot_shit/utils/dartcord/bot_data.dart';
 import 'package:shit_ui_app/bot_shit/utils/services/ai/openai_manager.dart';
+import 'package:shit_ui_app/utility/bot_functions.dart';
 
 import 'bot_cfg.dart';
 import 'commands/autocrat.dart';
@@ -29,8 +29,12 @@ Future<bool> botStart() async {
     final commands = CommandsPlugin(prefix: mentionOr((_) => '!'));
     autocrat(commands); // Load all commands
 
-    nyxxBotClient = await Nyxx.connectGateway(botToken,
-        GatewayIntents.allUnprivileged | GatewayIntents.messageContent | GatewayIntents.guildPresences |GatewayIntents.guildMembers,
+    nyxxBotClient = await Nyxx.connectGateway(
+        botToken,
+        GatewayIntents.allUnprivileged |
+            GatewayIntents.messageContent |
+            GatewayIntents.guildPresences |
+            GatewayIntents.guildMembers,
         options:
             GatewayClientOptions(plugins: [logging, cliIntegration, commands]));
     botUser = await nyxxBotClient.users.fetchCurrentUser();
@@ -64,10 +68,11 @@ Future<bool> botStop() async {
   }
 }
 
-class BotObjects{
+class BotObjects {
   // getter for the botUser and botClient
   NyxxGateway get botNyxxClient => nyxxBotClient;
   User get botClient => botUser;
   Snowflake get botId => botUser.id;
-  Future<Guild> get botGuild  => nyxxBotClient.guilds.get(Snowflake(botServerId));
+  Future<Guild> get botGuild =>
+      nyxxBotClient.guilds.get(Snowflake(botServerId));
 }
