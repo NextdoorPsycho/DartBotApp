@@ -150,7 +150,7 @@ class _BotPageState extends State<BotPage> {
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
         decoration: BoxDecoration(
           color: colorScheme.surface,
-          borderRadius: BorderRadius.circular(12.0),
+          borderRadius: BorderRadius.circular(1.0),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.1),
@@ -204,7 +204,7 @@ class _BotPageState extends State<BotPage> {
                 const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
             decoration: BoxDecoration(
               color: colorScheme.surface,
-              borderRadius: BorderRadius.circular(12.0),
+              borderRadius: BorderRadius.circular(1.0),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withOpacity(0.1),
@@ -232,6 +232,9 @@ class _BotPageState extends State<BotPage> {
                 ElevatedButton(
                   onPressed: () => _showUserList(context),
                   style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(1.0),
+                    ),
                     foregroundColor: colorScheme.onPrimary,
                     backgroundColor: colorScheme.primary,
                   ),

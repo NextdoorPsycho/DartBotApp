@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shit_ui_app/page/page_bot.dart';
+import 'package:shit_ui_app/page/settings.dart';
 
 import 'model/app_state.dart';
 
@@ -19,7 +20,7 @@ class _AggregatorState extends State<Aggregator> {
       case 0:
         return const BotPage();
       case 1:
-        return const BotPage();
+        return const SettingsPage();
       default:
         throw UnimplementedError('no widget for $index');
     }
@@ -33,11 +34,11 @@ class _AggregatorState extends State<Aggregator> {
         BottomNavigationBar(
           items: [
             BottomNavigationBarItem(
-                icon: const Icon(Icons.newspaper_rounded),
+                icon: const Icon(Icons.newspaper_sharp),
                 label: 'Bot',
                 backgroundColor: theme.primaryColor),
             BottomNavigationBarItem(
-                icon: const Icon(Icons.bug_report_rounded),
+                icon: const Icon(Icons.settings_sharp),
                 label: 'Misc',
                 backgroundColor: theme.primaryColor),
           ],
@@ -50,16 +51,18 @@ class _AggregatorState extends State<Aggregator> {
 
   Widget _buildTabletLayout(
       BuildContext context, Widget mainArea, double width) {
-    var theme = Theme.of(context);
+    Theme.of(context);
     return Row(
       children: [
         SafeArea(
           child: NavigationRail(
+            indicatorShape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(1.0))),
             destinations: const [
               NavigationRailDestination(
-                  icon: Icon(Icons.newspaper_rounded), label: Text('Bot')),
+                  icon: Icon(Icons.newspaper_sharp), label: Text('Bot')),
               NavigationRailDestination(
-                  icon: Icon(Icons.bug_report_rounded), label: Text('Misc')),
+                  icon: Icon(Icons.settings_sharp), label: Text('Settings')),
             ],
             selectedIndex: selectedIndex,
             onDestinationSelected: (value) =>
@@ -89,14 +92,16 @@ class _AggregatorState extends State<Aggregator> {
             : _buildTabletLayout(context, mainArea, constraints.maxWidth),
       ),
       floatingActionButton: FloatingActionButton(
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(1.0))),
         onPressed: () {
           Provider.of<BotDataModel>(context, listen: false).toggleTheme();
         },
         child: Icon(
           // Choose the icon based on the theme mode
           Theme.of(context).brightness == Brightness.dark
-              ? Icons.wb_sunny_rounded
-              : Icons.nightlight_round,
+              ? Icons.wb_sunny_sharp
+              : Icons.nightlight_sharp,
         ),
       ),
     );
