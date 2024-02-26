@@ -120,6 +120,6 @@ _notification(BuildContext context) {
     closeOnClick: true,
     closeButtonShowType: CloseButtonShowType.always,
     pauseOnHover: true,
-    applyBlurEffect: true,
+    applyBlurEffect: false,
   );
 }
