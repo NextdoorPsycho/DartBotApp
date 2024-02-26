@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nyxx/nyxx.dart';
 import 'package:shit_ui_app/bot_shit/utils/dartcord/bot_cryptography.dart';
+import 'package:shit_ui_app/main.dart';
 import 'package:shit_ui_app/utility/bot_functions.dart'; // Adjust the import path as necessary
 
 class BotPage extends StatefulWidget {
@@ -121,11 +122,10 @@ class _BotPageState extends State<BotPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Your Discord Bot',
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontStyle: FontStyle.normal,
-                fontSize: 24)),
+        title: Text(
+          'Discord Bot Aggregator',
+          style: myTextStyle(context, bold: true, size: 24),
+        ),
         centerTitle: true,
         backgroundColor: colorScheme.primary,
       ),
@@ -163,9 +163,12 @@ class _BotPageState extends State<BotPage> {
         child: Column(
           children: [
             ListTile(
-              title: Text(botFunctions.botStatus == BotStatus.off
-                  ? 'Start Bot'
-                  : 'Stop Bot'),
+              title: Text(
+                botFunctions.botStatus == BotStatus.off
+                    ? 'Start Bot'
+                    : 'Stop Bot',
+                style: myTextStyle(context, bold: true, size: 24),
+              ),
               leading: Icon(
                   botFunctions.botStatus == BotStatus.off
                       ? Icons.play_arrow
@@ -174,7 +177,7 @@ class _BotPageState extends State<BotPage> {
               onTap: () => botFunctions.toggleBot((status) => setState(() {})),
               subtitle: Text(
                   'Tap to ${botFunctions.botStatus == BotStatus.off ? 'start' : 'stop'} the bot',
-                  style: TextStyle(color: colorScheme.onSurface)),
+                  style: myTextStyle(context, bold: false)),
             ),
             const Divider(),
             _textField('Bot Token', botTokenController,
@@ -219,10 +222,7 @@ class _BotPageState extends State<BotPage> {
               children: [
                 Text(
                   'User Statistics',
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleLarge
-                      ?.copyWith(color: colorScheme.onSurface),
+                  style: myTextStyle(context),
                 ),
                 const SizedBox(height: 8.0),
                 Text('Total Users: $totalUsers',
@@ -230,16 +230,16 @@ class _BotPageState extends State<BotPage> {
                         TextStyle(fontSize: 16, color: colorScheme.onSurface)),
                 const SizedBox(height: 16.0),
                 ElevatedButton(
-                  onPressed: () => _showUserList(context),
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(1.0),
+                    onPressed: () => _showUserList(context),
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(1.0),
+                      ),
+                      foregroundColor: colorScheme.onPrimary,
+                      backgroundColor: colorScheme.primary,
                     ),
-                    foregroundColor: colorScheme.onPrimary,
-                    backgroundColor: colorScheme.primary,
-                  ),
-                  child: const Text('View Users'),
-                ),
+                    child: Text('View Users',
+                        style: myTextStyle(context, useSurfaceColor: false))),
               ],
             ),
           ),
@@ -260,7 +260,7 @@ class _BotPageState extends State<BotPage> {
         decoration: InputDecoration(
           labelText: label,
           border: const OutlineInputBorder(),
-          labelStyle: TextStyle(color: colorScheme.onSurface),
+          labelStyle: myTextStyle(context),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(color: colorScheme.surface),
           ),
@@ -290,7 +290,7 @@ class _BotPageState extends State<BotPage> {
                   icon: const Icon(Icons.close),
                   onPressed: () => Navigator.pop(context),
                 ),
-                title: const Text('User List'),
+                title: Text('User List', style: myTextStyle(context)),
               ),
               Expanded(
                 child: ListTileTheme(
@@ -300,7 +300,10 @@ class _BotPageState extends State<BotPage> {
                     itemCount: userList.length,
                     itemBuilder: (context, index) {
                       return ListTile(
-                        title: Text(userList.keys.elementAt(index)),
+                        title: Text(
+                          userList.keys.elementAt(index),
+                          style: myTextStyle(context),
+                        ),
                         trailing: IconButton(
                           icon: const Icon(Icons.copy),
                           onPressed: () {

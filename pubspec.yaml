@@ -21,8 +21,9 @@ dependencies:
   nyxx_commands: ^6.0.2
   nyxx_extensions: ^4.1.0
   toxic: ^1.0.5
-  thread: ^0.2.2
   window_manager: ^0.3.8
+  confetti: ^0.7.0
+  toastification: 1.2.1
 
 dev_dependencies:
   flutter_test:

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shit_ui_app/page/page_bot.dart';
+import 'package:shit_ui_app/page/page_channel.dart';
 import 'package:shit_ui_app/page/settings.dart';
 
+import 'main.dart';
 import 'model/app_state.dart';
 
 class Aggregator extends StatefulWidget {
@@ -20,6 +22,8 @@ class _AggregatorState extends State<Aggregator> {
       case 0:
         return const BotPage();
       case 1:
+        return const BotServerViewport();
+      case 2:
         return const SettingsPage();
       default:
         throw UnimplementedError('no widget for $index');
@@ -32,10 +36,16 @@ class _AggregatorState extends State<Aggregator> {
       children: [
         Expanded(child: mainArea),
         BottomNavigationBar(
+          selectedLabelStyle: myTextStyle(context),
+          unselectedLabelStyle: myTextStyle(context),
           items: [
             BottomNavigationBarItem(
                 icon: const Icon(Icons.newspaper_sharp),
                 label: 'Bot',
+                backgroundColor: theme.primaryColor),
+            BottomNavigationBarItem(
+                icon: const Icon(Icons.settings_input_component_sharp),
+                label: 'Misc',
                 backgroundColor: theme.primaryColor),
             BottomNavigationBarItem(
                 icon: const Icon(Icons.settings_sharp),
@@ -58,11 +68,25 @@ class _AggregatorState extends State<Aggregator> {
           child: NavigationRail(
             indicatorShape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(1.0))),
-            destinations: const [
+            destinations: [
               NavigationRailDestination(
-                  icon: Icon(Icons.newspaper_sharp), label: Text('Bot')),
+                  icon: const Icon(Icons.newspaper_sharp),
+                  label: Text(
+                    'Bot',
+                    style: myTextStyle(context),
+                  )),
               NavigationRailDestination(
-                  icon: Icon(Icons.settings_sharp), label: Text('Settings')),
+                  icon: const Icon(Icons.settings_input_component_sharp),
+                  label: Text(
+                    'Server',
+                    style: myTextStyle(context),
+                  )),
+              NavigationRailDestination(
+                  icon: const Icon(Icons.settings_sharp),
+                  label: Text(
+                    'Settings',
+                    style: myTextStyle(context),
+                  )),
             ],
             selectedIndex: selectedIndex,
             onDestinationSelected: (value) =>

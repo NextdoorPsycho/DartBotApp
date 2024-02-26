@@ -2,6 +2,7 @@ import 'package:fast_log/fast_log.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shit_ui_app/aggregator.dart';
+import 'package:toastification/toastification.dart';
 
 import 'gen/main.g.dart' as g;
 import 'model/app_state.dart';
@@ -21,7 +22,7 @@ ThemeData applyTheme(ThemeData t) {
       ));
 }
 
-ThemeData lightTheme() {
+ThemeData _lightTheme() {
   return applyTheme(ThemeData(
     useMaterial3: true,
     colorScheme: ColorScheme.fromSeed(
@@ -42,7 +43,7 @@ ThemeData lightTheme() {
   ));
 }
 
-ThemeData darkTheme() {
+ThemeData _darkTheme() {
   return applyTheme(ThemeData(
     useMaterial3: true,
     colorScheme: ColorScheme.fromSeed(
@@ -64,6 +65,23 @@ ThemeData darkTheme() {
   ));
 }
 
+TextStyle myTextStyle(BuildContext context,
+    {bool bold = false,
+    bool italic = false,
+    double size = 16,
+    bool useSurfaceColor = true,
+    fontFamily = 'Helvetica Neue',
+    fontWeight = FontWeight.w400}) {
+  ColorScheme colorScheme = Theme.of(context).colorScheme;
+  return TextStyle(
+    color: useSurfaceColor ? colorScheme.onSurface : colorScheme.onBackground,
+    fontStyle: italic ? FontStyle.italic : FontStyle.normal,
+    fontSize: size,
+    fontWeight: bold ? FontWeight.bold : fontWeight,
+    fontFamily: fontFamily,
+  );
+}
+
 void main() {
   //TODO: dart run nyxx_commands:compile lib/main.dart --no-compile -o lib/gen/main.g.dart
   //TODO: delete this line in that file:  " _main.main(); " (at the bottom!) *this fixes commands compiling*
@@ -82,14 +100,20 @@ class MyApp extends StatelessWidget {
       child: Consumer<BotDataModel>(
         builder: (context, model, child) {
           return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            theme: lightTheme(),
-            darkTheme: darkTheme(),
-            themeMode: model.themeMode == AppThemeMode.dark
-                ? ThemeMode.dark
-                : ThemeMode.light,
-            home: const Aggregator(),
-          );
+              debugShowCheckedModeBanner: false,
+              theme: _lightTheme(),
+              darkTheme: _darkTheme(),
+              themeMode: model.themeMode == AppThemeMode.dark
+                  ? ThemeMode.dark
+                  : ThemeMode.light,
+              home: const ToastificationConfigProvider(
+                config: ToastificationConfig(
+                  alignment: Alignment.center,
+                  itemWidth: 440,
+                  animationDuration: Duration(milliseconds: 500),
+                ),
+                child: Aggregator(),
+              ));
         },
       ),
     );
