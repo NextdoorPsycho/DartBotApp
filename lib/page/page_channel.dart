@@ -79,7 +79,7 @@ Widget _buildChannelList(
           ListTile(
             title: Text(channel['name']),
             onTap: () {
-              // Handle channel tap
+              _notification(context, 'Channel Selected', channel['name']);
             },
           ),
       // Then display top-level categories with their channels, ensuring only text and voice channels are listed
@@ -91,7 +91,7 @@ Widget _buildChannelList(
               ListTile(
                 title: Text(channel['name']),
                 onTap: () {
-                  // Handle channel tap
+                  _notification(context, 'Channel Selected', channel['name']);
                 },
               ),
           ],
@@ -100,7 +100,7 @@ Widget _buildChannelList(
   );
 }
 
-_notification(BuildContext context) {
+_notification(BuildContext context, String topText, String bottomText) {
   ColorScheme colorScheme = Theme.of(context).colorScheme;
   return toastification.show(
     context: context,
@@ -109,11 +109,11 @@ _notification(BuildContext context) {
     foregroundColor: colorScheme.onSurface,
     style: ToastificationStyle.minimal,
     title: Text(
-      "Server Viewport",
+      topText,
       style: myTextStyle(context, title: true),
     ),
     description: Text(
-      "View your Discord server in a viewport.",
+      bottomText,
       style: myTextStyle(context),
     ),
     alignment: Alignment.topCenter,
