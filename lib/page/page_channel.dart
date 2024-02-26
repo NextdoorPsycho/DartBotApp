@@ -36,17 +36,14 @@ class _BotServerViewportState extends State<BotServerViewport> {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Discord Server Viewport',
-          style: myTextStyle(context, bold: true, size: 24),
-        ),
+        title: Text('Discord Server Viewport'),
         centerTitle: true,
         backgroundColor: colorScheme.primary,
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            _buildDiscordChannelFrameworlk(context),
+            Container(),
           ],
         ),
       ),
@@ -54,42 +51,50 @@ class _BotServerViewportState extends State<BotServerViewport> {
   }
 }
 
-Widget _buildDiscordChannelFrameworlk(BuildContext context) {
+Widget _buildChannelList(BuildContext context, Map<String, dynamic> data) {
   ColorScheme colorScheme = Theme.of(context).colorScheme;
+  List<Widget> categoryWidgets = [];
 
-  return Padding(
-    padding: const EdgeInsets.all(16.0),
-    child: Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
-      decoration: BoxDecoration(
-        color: colorScheme.surface,
-        borderRadius: BorderRadius.circular(1.0),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            spreadRadius: 0,
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
+  for (var category in data['categories']) {
+    List<Widget> channelWidgets = [];
+    for (var channel in category['channels']) {
+      channelWidgets.add(
+        ListTile(
+          title: Text(channel['name'],
+              style: TextStyle(color: colorScheme.onSurface)),
+          leading: Icon(Icons.text_snippet,
+              color: colorScheme.primary), // Customized per channel type
+          onTap: () {}, // Handle channel tap
+        ),
+      );
+    }
+
+    categoryWidgets.add(
+      ExpansionTile(
+        title: Text(category['name'],
+            style: TextStyle(color: colorScheme.onSurface)),
+        backgroundColor: colorScheme.surface,
+        iconColor: colorScheme.primary,
+        collapsedIconColor: colorScheme.onSurface,
+        children: channelWidgets,
       ),
-      child: Column(
-        children: [
-          ListTile(
-              title: Text(
-                'Server Viewport',
-                style: myTextStyle(context),
-              ),
-              subtitle: Text(
-                'View your Discord server in a viewport.',
-                style: myTextStyle(context),
-              ),
-              onTap: () => _notification(context)),
-          const Divider(),
-        ],
+    );
+  }
+
+  for (var channel in data['standaloneChannels']) {
+    categoryWidgets.add(
+      ListTile(
+        title: Text(channel['name'],
+            style: TextStyle(color: colorScheme.onSurface)),
+        leading: Icon(Icons.text_snippet,
+            color: colorScheme.primary), // Customized per channel type
+        onTap: () {}, // Handle channel tap
       ),
-    ),
+    );
+  }
+
+  return ListView(
+    children: categoryWidgets,
   );
 }
 
@@ -104,7 +109,7 @@ _notification(BuildContext context) {
     style: ToastificationStyle.minimal,
     title: Text(
       "Server Viewport",
-      style: myTextStyle(context, bold: true, size: 24),
+      style: myTextStyle(context, title: true),
     ),
     description: Text(
       "View your Discord server in a viewport.",

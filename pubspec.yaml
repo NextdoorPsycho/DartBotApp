@@ -33,3 +33,7 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  fonts:
+  - family: h
+    fonts:
+      - asset: "fonts/ITC Avant Garde Gothic Medium.otf"

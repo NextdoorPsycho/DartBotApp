@@ -50,8 +50,9 @@ class _BotPageState extends State<BotPage> {
   void didChangeDependencies() {
     _timer = Timer.periodic(const Duration(seconds: 3), (Timer t) async {
       if (mounted && botFunctions.botStatus == BotStatus.on) {
-        await fetchUserStatistics(); // Assuming this updates totalUsers
-        await fetchUserList(); // Assuming this updates userList
+        await fetchUserStatistics();
+        await fetchUserList();
+        BotCryptography().gatherChats();
         bool shouldUpdate = false;
 
         if (_previousTotalUsers != totalUsers ||
@@ -122,10 +123,7 @@ class _BotPageState extends State<BotPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Discord Bot Aggregator',
-          style: myTextStyle(context, bold: true, size: 24),
-        ),
+        title: Text('Discord Bot Aggregator'),
         centerTitle: true,
         backgroundColor: colorScheme.primary,
       ),
@@ -144,7 +142,7 @@ class _BotPageState extends State<BotPage> {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
 
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
       child: Container(
         width: double.infinity,
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
@@ -167,7 +165,7 @@ class _BotPageState extends State<BotPage> {
                 botFunctions.botStatus == BotStatus.off
                     ? 'Start Bot'
                     : 'Stop Bot',
-                style: myTextStyle(context, bold: true, size: 24),
+                style: myTextStyle(context, title: true),
               ),
               leading: Icon(
                   botFunctions.botStatus == BotStatus.off
@@ -177,7 +175,7 @@ class _BotPageState extends State<BotPage> {
               onTap: () => botFunctions.toggleBot((status) => setState(() {})),
               subtitle: Text(
                   'Tap to ${botFunctions.botStatus == BotStatus.off ? 'start' : 'stop'} the bot',
-                  style: myTextStyle(context, bold: false)),
+                  style: myTextStyle(context, title: false)),
             ),
             const Divider(),
             _textField('Bot Token', botTokenController,
@@ -239,7 +237,7 @@ class _BotPageState extends State<BotPage> {
                       backgroundColor: colorScheme.primary,
                     ),
                     child: Text('View Users',
-                        style: myTextStyle(context, useSurfaceColor: false))),
+                        style: myTextStyle(context, useSurfaceColor: true))),
               ],
             ),
           ),

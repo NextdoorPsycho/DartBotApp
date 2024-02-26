@@ -18,26 +18,18 @@
 
 import 'package:fast_log/fast_log.dart';
 import 'package:nyxx_commands/nyxx_commands.dart';
-import 'package:shit_ui_app/bot_shit/commands/slash/button/button_demo.dart';
-import 'package:shit_ui_app/bot_shit/commands/slash/button/button_selection_demo.dart';
-import 'package:shit_ui_app/bot_shit/commands/slash/embed/embed.dart';
-import 'package:shit_ui_app/bot_shit/commands/slash/embed/embed_cat.dart';
-import 'package:shit_ui_app/bot_shit/commands/slash/image/Image_from_prompt.dart';
-import 'package:shit_ui_app/bot_shit/commands/slash/image/image_edit.dart';
-import 'package:shit_ui_app/bot_shit/commands/slash/image/image_variant.dart';
-import 'package:shit_ui_app/bot_shit/commands/slash/ping/ping_collection.dart';
 import 'package:shit_ui_app/bot_shit/commands/slash/ticket/ticket_collection.dart';
 
 void autocrat(CommandsPlugin commands) {
   verbose("Registering commands");
-  commands.addCommand(pingCluster);
-  commands.addCommand(embed);
-  commands.addCommand(cat);
-  commands.addCommand(buttonDemo);
-  commands.addCommand(selectionMenuDemo);
-  commands.addCommand(image_vary);
-  commands.addCommand(image_prompt);
-  commands.addCommand(image_edit);
+  // commands.addCommand(pingCluster);
+  // commands.addCommand(embed);
+  // commands.addCommand(cat);
+  // commands.addCommand(buttonDemo);
+  // commands.addCommand(selectionMenuDemo);
+  // commands.addCommand(image_vary);
+  // commands.addCommand(image_prompt);
+  // commands.addCommand(image_edit);
   commands.addCommand(ticketCluster);
   verbose("Loaded commands");
 }
