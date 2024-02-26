@@ -13,7 +13,7 @@ dependencies:
   provider: ^6.1.1
   shared_preferences: ^2.2.2
   build_runner: ^2.4.8
-  dart_openai: ^5.0.0
+  dart_openai: ^5.1.0
   fast_log: ^1.0.7
   http: ^1.2.0
   image: 3.0.1

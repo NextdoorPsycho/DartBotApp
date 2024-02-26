@@ -8,31 +8,27 @@ import 'gen/main.g.dart' as g;
 import 'model/app_state.dart';
 
 ThemeData applyTheme(ThemeData t) {
-  return t
-      .copyWith(
-        textTheme: t.textTheme.apply(
-          fontFamily: 'h',
-        ),
-      )
-      .copyWith(
-          bottomNavigationBarTheme: t.bottomNavigationBarTheme.copyWith(
-            backgroundColor: t.cardColor,
-          ),
-          appBarTheme: t.appBarTheme.copyWith(
-              titleTextStyle:
-                  (t.appBarTheme.titleTextStyle ?? const TextStyle()).copyWith(
-            color: t.colorScheme.onPrimary,
-            fontSize: 24,
-            fontFamily: 'h',
-          )),
-          navigationRailTheme: t.navigationRailTheme.copyWith(
-            backgroundColor: t.brightness == Brightness.dark
-                ? Colors.grey[850]
-                : Colors.grey[3040], // Adjusted for theme
-            selectedIconTheme: IconThemeData(color: t.colorScheme.primary),
-            unselectedIconTheme:
-                IconThemeData(color: t.hoverColor.withOpacity(0.5)),
-          ));
+  return t.copyWith(
+    textTheme: t.textTheme.apply(fontFamily: 'h'),
+    bottomNavigationBarTheme: t.bottomNavigationBarTheme.copyWith(
+      backgroundColor: t.cardColor,
+    ),
+    appBarTheme: t.appBarTheme.copyWith(
+      titleTextStyle:
+          (t.appBarTheme.titleTextStyle ?? const TextStyle()).copyWith(
+        color: t.colorScheme.onPrimary,
+        fontSize: 24,
+        fontFamily: 'h',
+      ),
+    ),
+    navigationRailTheme: t.navigationRailTheme.copyWith(
+      backgroundColor: t.brightness == Brightness.dark
+          ? Colors.grey[850]
+          : Colors.grey[300], // Corrected potential typo in Colors.grey[3040]
+      selectedIconTheme: IconThemeData(color: t.colorScheme.primary),
+      unselectedIconTheme: IconThemeData(color: t.hoverColor.withOpacity(0.5)),
+    ),
+  );
 }
 
 ThemeData _lightTheme() {
