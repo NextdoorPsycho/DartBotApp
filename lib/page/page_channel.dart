@@ -1,10 +1,12 @@
+import 'dart:async';
+
 import 'package:fast_log/fast_log.dart';
 import 'package:flutter/material.dart';
 import 'package:nyxx/nyxx.dart';
 import 'package:shit_ui_app/bot_shit/utils/dartcord/bot_cryptography.dart';
-import 'package:shit_ui_app/main.dart';
+import 'package:shit_ui_app/bot_shit/utils/dartcord/model/channel.dart';
+import 'package:shit_ui_app/page/prefabs/bot_ui_notifications.dart';
 import 'package:shit_ui_app/utility/bot_functions.dart';
-import 'package:toastification/toastification.dart'; // Adjust the import path as necessary
 
 class BotServerViewport extends StatefulWidget {
   const BotServerViewport({super.key});
@@ -14,118 +16,183 @@ class BotServerViewport extends StatefulWidget {
 }
 
 class _BotServerViewportState extends State<BotServerViewport> {
+  Timer? _timer;
   int totalUsers = 0;
   final BotFunctions botFunctions = BotFunctions();
   late TextEditingController botTokenController;
+  Map<String, dynamic>? _cachedChannels;
 
   @override
   void initState() {
     super.initState();
     botTokenController = TextEditingController();
     loadSavedData();
+    _startTimer();
+  }
+
+  void _startTimer() {
+    _timer = Timer.periodic(const Duration(seconds: 2), (Timer t) async {
+      info("Timer ran");
+      if (mounted && botStatus == BotStatus.on) {
+        info("Updating Channels");
+        await updateChannels();
+        // Add any additional periodic tasks here
+      } else {
+        errorGeneric(
+            context, "Can't Set Bot State!", "Turn your fucking bot on.");
+        _clearData();
+      }
+    });
+  }
+
+  Future<void> updateChannels() async {
+    try {
+      var channels = await BotCryptography().gatherChats();
+      if (!_mapsAreEqual(channels, _cachedChannels)) {
+        if (mounted) {
+          setState(() {
+            _cachedChannels = channels;
+          });
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        errorGeneric(context, "Can't Set Bot State!", "$e");
+      }
+    }
   }
 
   void loadSavedData() async {
-    info('Loading saved data...');
     await botFunctions.loadSavedData();
     setState(() {
-      // botTokenController.text = botFunctions.botToken;
+      botTokenController.text = botFunctions.botToken;
     });
+  }
+
+  bool _mapsAreEqual(Map<String, dynamic>? map1, Map<String, dynamic>? map2) {
+    if (map1 == null || map2 == null) return false;
+    if (map1.length != map2.length) return false;
+    for (String key in map1.keys) {
+      if (map2[key] != map1[key]) return false;
+    }
+    return true;
+  }
+
+  void _clearData() {
+    setState(() {
+      _cachedChannels = null;
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Discord Server Viewport'),
-          centerTitle: true,
-          backgroundColor: colorScheme.primary,
-        ),
-        body: FutureBuilder(
-          future: BotCryptography().gatherChats(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasError) {
-              return Center(child: Text('Error: ${snapshot.error}'));
-            } else if (snapshot.hasData) {
-              // Ensure data is not null by providing a fallback value or ensuring non-null
-              final chatsData =
-                  snapshot.data ?? {}; // Fallback to an empty map if null
-              return SingleChildScrollView(
-                child: Column(
-                  children: [
-                    _buildChannelList(context, chatsData),
-                  ],
-                ),
-              );
-            } else {
-              // Handle the case where there's no error, but the data is still null
-              return const Center(child: Text('No data available'));
-            }
-          },
-        ));
+      appBar: AppBar(
+        title: const Text('Discord Server Viewport'),
+        centerTitle: true,
+        backgroundColor: colorScheme.primary,
+      ),
+      body: _cachedChannels == null
+          ? const Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
+              child: Column(
+                children: [
+                  _buildChannelList(context, _cachedChannels!),
+                ],
+              ),
+            ),
+    );
   }
-}
 
-Widget _buildChannelList(
-    BuildContext context, Map<String, dynamic> organizedChannels) {
-  return Column(
-    children: [
-      // Display standalone channels first, ensuring no categories are included
-      for (var channel in organizedChannels['standaloneChannels'])
-        if (channel['type'] != ChannelType.guildCategory)
+  Widget _buildChannelList(
+      BuildContext context, Map<String, dynamic> organizedChannels) {
+    List<EChannel> standaloneChannels = organizedChannels['standaloneChannels'];
+    List<EChannel> categories = organizedChannels['categories'];
+
+    return Column(
+      children: [
+        // Display standalone channels first
+        for (var channel in standaloneChannels)
           ListTile(
-            title: Text(channel['name']),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                IconButton(
+                  icon: const Icon(Icons.edit_sharp),
+                  onPressed: () {
+                    // Pencil button tapped
+                  },
+                ),
+                IconButton(
+                  icon: const Icon(Icons.folder_copy_sharp),
+                  onPressed: () {
+                    // Folder button tapped
+                  },
+                ),
+                IconButton(
+                    icon: const Icon(Icons.delete_outline_sharp),
+                    onPressed: () {
+                      // Delete button tapped
+                    }),
+              ],
+            ),
+            leading: channel.type == ChannelType.guildText
+                ? const Icon(Icons.chat_outlined)
+                : const Icon(Icons.keyboard_voice_outlined),
+            title: Text(channel.name),
             onTap: () {
-              _notification(context, 'Channel Selected', channel['name']);
+              genericNotification(context, 'Channel Selected', channel.name);
             },
           ),
-      // Then display top-level categories with their channels, ensuring only text and voice channels are listed
-      for (var category in organizedChannels['categories'])
-        ExpansionTile(
-          title: Text(category['name']),
-          children: [
-            for (var channel in category['channels'])
-              ListTile(
-                title: Text(channel['name']),
-                onTap: () {
-                  _notification(context, 'Channel Selected', channel['name']);
-                },
-              ),
-          ],
-        ),
-    ],
-  );
-}
-
-_notification(BuildContext context, String topText, String bottomText) {
-  ColorScheme colorScheme = Theme.of(context).colorScheme;
-  return toastification.show(
-    context: context,
-    backgroundColor: colorScheme.surface,
-    type: ToastificationType.success,
-    foregroundColor: colorScheme.onSurface,
-    style: ToastificationStyle.minimal,
-    title: Text(
-      topText,
-      style: myTextStyle(context, title: true),
-    ),
-    description: Text(
-      bottomText,
-      style: myTextStyle(context),
-    ),
-    alignment: Alignment.topCenter,
-    autoCloseDuration: const Duration(seconds: 4),
-    primaryColor: colorScheme.primary,
-    icon: Icon(Icons.keyboard_arrow_right_sharp, color: colorScheme.onSurface),
-    borderRadius: BorderRadius.circular(1.0),
-    boxShadow: lowModeShadow,
-    dragToClose: true,
-    closeOnClick: true,
-    closeButtonShowType: CloseButtonShowType.always,
-    pauseOnHover: true,
-    applyBlurEffect: false,
-  );
+        // Then display top-level categories with their channels
+        for (var category in categories)
+          ExpansionTile(
+            leading: const Icon(Icons.folder_open_sharp),
+            title: Text(category.name),
+            children: category.children
+                    ?.map((child) => ListTile(
+                          leading: child.type == ChannelType.guildText
+                              ? const Icon(Icons.chat_outlined)
+                              : const Icon(Icons.keyboard_voice_outlined),
+                          title: Text(child.name),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              IconButton(
+                                icon: const Icon(Icons.edit_sharp),
+                                onPressed: () {
+                                  // Pencil button tapped
+                                },
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.folder_copy_sharp),
+                                onPressed: () {
+                                  // Folder button tapped
+                                },
+                              ),
+                              IconButton(
+                                  icon: const Icon(Icons.delete_outline_sharp),
+                                  onPressed: () {
+                                    // Delete button tapped
+                                  }),
+                            ],
+                          ),
+                          onTap: () {
+                            genericNotification(
+                                context, 'Channel Selected', child.name);
+                          },
+                        ))
+                    .toList() ??
+                [],
+          ),
+      ],
+    );
+  }
 }

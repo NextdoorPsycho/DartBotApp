@@ -60,7 +60,7 @@ ThemeData _darkTheme() {
           const Color(0xFF880E0E), // Deep maroon as an example seed color
       brightness: Brightness.dark,
       primary: const Color(0xFF880E0E), // Deep maroon
-      secondary: const Color(0xFF005ecb), // Dark grey variant
+      secondary: const Color(0xffd70000), // Dark grey variant
       surface: const Color(0xFF121212), // Dark grey for surfaces
       background:
           const Color(0xFF212121), // Slightly lighter grey for background

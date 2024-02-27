@@ -48,9 +48,15 @@ Future<bool> botStart() async {
     await botData.saveToFile();
 
     success("Bot started at: ${DateTime.now()}, Updating bot data.");
+    botStatus = BotStatus.on;
 
     return true;
   } catch (e) {
+    if (botStatus == BotStatus.on) {
+      error("An error occurred: $e");
+    } else {
+      botStatus = BotStatus.off;
+    }
     error("An error occurred: $e");
     return false;
   }

@@ -49,7 +49,7 @@ class _BotPageState extends State<BotPage> {
   @override
   void didChangeDependencies() {
     _timer = Timer.periodic(const Duration(seconds: 3), (Timer t) async {
-      if (mounted && botFunctions.botStatus == BotStatus.on) {
+      if (mounted && botStatus == BotStatus.on) {
         await fetchUserStatistics();
         await fetchUserList();
         BotCryptography().gatherChats();
@@ -123,7 +123,7 @@ class _BotPageState extends State<BotPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Discord Bot Aggregator'),
+        title: const Text('Discord Bot Aggregator'),
         centerTitle: true,
         backgroundColor: colorScheme.primary,
       ),
@@ -162,19 +162,15 @@ class _BotPageState extends State<BotPage> {
           children: [
             ListTile(
               title: Text(
-                botFunctions.botStatus == BotStatus.off
-                    ? 'Start Bot'
-                    : 'Stop Bot',
+                botStatus == BotStatus.off ? 'Start Bot' : 'Stop Bot',
                 style: myTextStyle(context, title: true),
               ),
               leading: Icon(
-                  botFunctions.botStatus == BotStatus.off
-                      ? Icons.play_arrow
-                      : Icons.stop,
+                  botStatus == BotStatus.off ? Icons.play_arrow : Icons.stop,
                   color: colorScheme.onSurface),
               onTap: () => botFunctions.toggleBot((status) => setState(() {})),
               subtitle: Text(
-                  'Tap to ${botFunctions.botStatus == BotStatus.off ? 'start' : 'stop'} the bot',
+                  'Tap to ${botStatus == BotStatus.off ? 'start' : 'stop'} the bot',
                   style: myTextStyle(context, title: false)),
             ),
             const Divider(),
@@ -228,13 +224,13 @@ class _BotPageState extends State<BotPage> {
                         TextStyle(fontSize: 16, color: colorScheme.onSurface)),
                 const SizedBox(height: 16.0),
                 ElevatedButton(
-                    onPressed: () => _showUserList(context),
+                    onPressed: () => _userSection(context),
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(1.0),
                       ),
-                      foregroundColor: colorScheme.onPrimary,
-                      backgroundColor: colorScheme.primary,
+                      foregroundColor: colorScheme.onSecondary,
+                      backgroundColor: colorScheme.secondary,
                     ),
                     child: Text('View Users',
                         style: myTextStyle(context, useSurfaceColor: true))),
@@ -249,7 +245,6 @@ class _BotPageState extends State<BotPage> {
   Widget _textField(String label, TextEditingController controller,
       Function(String) onSubmitted, BuildContext context) {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
       child: TextField(
@@ -273,7 +268,7 @@ class _BotPageState extends State<BotPage> {
     );
   }
 
-  void _showUserList(BuildContext context) {
+  void _userSection(BuildContext context) {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
     showModalBottomSheet(
       context: context,
@@ -283,7 +278,7 @@ class _BotPageState extends State<BotPage> {
           child: Column(
             children: [
               AppBar(
-                backgroundColor: colorScheme.primary, // Adapt to theme
+                backgroundColor: colorScheme.primary,
                 leading: IconButton(
                   icon: const Icon(Icons.close),
                   onPressed: () => Navigator.pop(context),
@@ -292,8 +287,8 @@ class _BotPageState extends State<BotPage> {
               ),
               Expanded(
                 child: ListTileTheme(
-                  iconColor: colorScheme.primary, // Adapt icon color to theme
-                  textColor: colorScheme.onSurface, // Adapt text color to theme
+                  iconColor: colorScheme.primary,
+                  textColor: colorScheme.onSurface,
                   child: ListView.builder(
                     itemCount: userList.length,
                     itemBuilder: (context, index) {

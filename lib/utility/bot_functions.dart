@@ -6,12 +6,13 @@ import 'package:shit_ui_app/bot_shit/bot_main.dart';
 
 enum BotStatus { off, on, stopping }
 
+BotStatus botStatus = BotStatus.off;
+
 class BotFunctions {
   late String botToken;
   late String botOwnerId;
   late String openaiKey;
   late String serverId;
-  BotStatus botStatus = BotStatus.off;
 
   Future<void> loadSavedData() async {
     final prefs = await SharedPreferences.getInstance();
@@ -26,6 +27,7 @@ class BotFunctions {
     await prefs.setString('botToken', value);
     botToken = value;
   }
+
   Future<void> saveOwnerId(String value) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('ownerId', value);
@@ -37,7 +39,6 @@ class BotFunctions {
     await prefs.setString('openaiKey', value);
     openaiKey = value;
   }
-
 
   Future<void> saveServerId(String value) async {
     final prefs = await SharedPreferences.getInstance();
